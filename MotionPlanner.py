@@ -16,7 +16,7 @@ class MotionPlanner:
             if self.canSee(stimulus.pos):
                 pass
 
-        #todo: find shortest path and take it
+        #todo: find shortest path to items and doors and take it
 
     def step(self):
         return path.pop()

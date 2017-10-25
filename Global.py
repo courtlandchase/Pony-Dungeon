@@ -4,11 +4,15 @@ class Globals:
         self.score = 0
         self.eventLog = ["", "", ""]
         self.screen = None
+        self.running = True
 
     def event(self, msg):
         self.eventLog.pop(0)
         self.eventLog.append(msg)
 
     def showEvents(self):
+        ret = ""
         for event in self.eventLog:
-            print(event) #todo: change to curses
+            ret += event + "\n"
+
+        return ret

@@ -1,6 +1,7 @@
 import curses
 import time
-import Global, Dungeon, Help, Graphics
+import Global, Dungeon, Graphics
+import EventHandle
 
 globs = Global.Globals()
 
@@ -28,9 +29,15 @@ def gameLoop():
 
     Graphics.draw(globs.screen, "        Pony Dungeon:\n  [Press any key to start]")
     c = chr(globs.screen.getch())
-    while c != 'q' and c != 'Q':
-        Graphics.draw(globs.screen, "test: " + c)
-        c = chr(globs.screen.getch())
+    globs.screen.timeout(1000)
+    win = "" #todo: generate dungeon
+    while c != 'q':
+        Graphics.draw(globs.screen, win)
+        cmd = globs.screen.getch()
+        if cmd > 0:
+            win = EventHandle.handleInput(globs, chr(cmd))
+
+        globs.score -= 1
         
 def main():
     print("loading...")
