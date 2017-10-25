@@ -21,26 +21,25 @@ class Room:
 
     def show(self):
         tb = '-' * self.width + "\n"
-        td = '.' * self.width
         mi = '|' + '.' * (self.width - 2) + "|\n"
         mid = mi * (self.height - 2)
         ld = len(self.doors)
         if ld == 1:
             mid = '.' * (self.width - 1) + "|\n" + mid
         elif ld == 2:
-            mid = '\n' + mid
+            mid = ('.' * self.width) + '\n' + mid
             mid += mi
         elif ld == 3:
-            mid = '\n' + mid
+            mid = ('.' * self.width) + '\n' + mid
             mid += '.' * (self.width - 1) + "|\n"
         else:
-            mid = '\n' + mid
+            mid = ('.' * self.width) + '\n' + mid
             mid += '.' * self.width + '\n'
 
-        ret = list(tb + td + mid + tb)
+        ret = list(tb + mid + tb)
          
         for item in self.items:
-            ret[item.y * (self.width + 1) + item.x] = item.key
+            ret[item.y * (self.width + 1) + item.x] = item.vkey
 
         ret = "".join(ret)
             

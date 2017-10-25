@@ -2,9 +2,12 @@ class Globals:
     def __init__(self):
         self.floor = 1
         self.score = 0
+        self.player = None
+        self.dungeon = None
         self.eventLog = ["", "", ""]
         self.screen = None
         self.running = True
+        self.menustate = ""
 
     def event(self, msg):
         self.eventLog.pop(0)

@@ -1,7 +1,7 @@
 import curses
 import time
 import Global, Dungeon, Graphics
-import EventHandle
+import EventHandle, Player
 
 globs = Global.Globals()
 
@@ -17,9 +17,18 @@ def cursesInit():
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #enemies
     curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK) #items
 
+def roomstr():
+    global globs
+    room = globs.dungeon[globs.player.pos.roomnum]
+    ret = list(room.show())
+    ret[globs.player.pos.y * (room.width + 1) + globs.player.pos.x] = '@'
+    return "".join(ret)
+    
 def init():
     global globs
     cursesInit()
+    globs.dungeon = Dungeon.genDungeon()
+    globs.player = Player.Player()
     globs.event("You have entered pony dungeon in the quest for the sword of awesomeness!")
     globs.event("Press h at anytime to view a help menu.")
     globs.event("Press q at anytime to quit the game.")
@@ -30,13 +39,17 @@ def gameLoop():
     Graphics.draw(globs.screen, "        Pony Dungeon:\n  [Press any key to start]")
     c = chr(globs.screen.getch())
     globs.screen.timeout(1000)
-    win = "" #todo: generate dungeon
+    win = roomstr()
     while c != 'q':
         Graphics.draw(globs.screen, win)
         cmd = globs.screen.getch()
         if cmd > 0:
             win = EventHandle.handleInput(globs, chr(cmd))
+            if not win:
+                win = roomstr()
 
+        #todo: update win with enemy actions if needed
+                
         globs.score -= 1
         
 def main():
