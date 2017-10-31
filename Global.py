@@ -8,6 +8,7 @@ class Globals:
         self.screen = None
         self.running = True
         self.menustate = ""
+        self.audio = None
 
     def event(self, msg):
         self.eventLog.pop(0)

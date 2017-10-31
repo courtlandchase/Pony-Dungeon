@@ -10,8 +10,7 @@ class Item:
         #todo: add other properties later
 
 itemChance = 0.015
-itemList = [ '@', #player
-             '$', #sand
+itemList = [ '$', #sand
              '+', #HP restore
              'w', #weapon
              'i', #item

@@ -1,18 +1,22 @@
+import pygame
+
 class Audio:
     def __init__(self):
         self.sounds = {}
+        pygame.mixer.init()
 
-    def playSong(path):
+    def playSong(self, path):
         pygame.mixer.music.load(path)
         pygame.mixer.music.play(-1)
         
-    def playSound(path):
+    def playSound(self, path):
         if path in self.sounds:
             self.sounds[path].play()
         else:
             self.sounds[path] = pygame.mixer.Sound(path)
             self.sounds[path].play()
 
-    def stop():
+    def stop(self):
         pygame.mixer.music.stop()
-        pygame.mixer.Sound.fadeout(500)
+        for sound in self.sounds:
+            sound.stop()

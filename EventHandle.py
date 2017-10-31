@@ -1,4 +1,10 @@
+import sys
+import curses
 import Help
+
+def exit():
+    curses.endwin()
+    sys.exit(0)
 
 def handleInput(globs, cmd):
     if globs.menustate == "help":
@@ -8,7 +14,7 @@ def handleInput(globs, cmd):
             Help.help(0)
             
     if cmd == 'q' or cmd == 'Q':
-        return 'q'
+        exit()
     if cmd == 'h':
         globs.running = not globs.running
         if globs.running:
@@ -32,3 +38,15 @@ def handleInput(globs, cmd):
     
 
     return "Invalid input: " + cmd + ".\nPress h for help."
+
+def handleCollisions(globs):
+    room = globs.dungeon[globs.player.pos.roomnum]
+    
+    if globs.player.pos.x < 1:
+        globs.player.pos.x += 1
+    elif globs.player.pos.x > room.width - 2:
+        globs.player.pos.x -= 1
+    elif globs.player.pos.y < 1:
+        globs.player.pos.y += 1
+    elif globs.player.pos.y > room.height:
+        globs.player.pos.y -= 1

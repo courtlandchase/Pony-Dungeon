@@ -1,6 +1,7 @@
 import curses
 import time
-import Global, Dungeon, Graphics
+import Audio, Graphics
+import Global, Dungeon
 import EventHandle, Player
 
 globs = Global.Globals()
@@ -29,6 +30,8 @@ def init():
     cursesInit()
     globs.dungeon = Dungeon.genDungeon()
     globs.player = Player.Player()
+    globs.audio = Audio.Audio()
+    
     globs.event("You have entered pony dungeon in the quest for the sword of awesomeness!")
     globs.event("Press h at anytime to view a help menu.")
     globs.event("Press q at anytime to quit the game.")
@@ -37,23 +40,24 @@ def gameLoop():
     global globs
 
     Graphics.draw(globs.screen, "        Pony Dungeon:\n  [Press any key to start]")
+    globs.audio.playSong("snd/title.ogg")
     c = chr(globs.screen.getch())
+    globs.audio.stop()
     globs.screen.timeout(1000)
     win = roomstr()
-    while c != 'q':
+    while True:
         Graphics.draw(globs.screen, win)
         cmd = globs.screen.getch()
         if cmd > 0:
             win = EventHandle.handleInput(globs, chr(cmd))
-            if not win:
-                win = roomstr()
-
+        
         #todo: update win with enemy actions if needed
-                
+        EventHandle.handleCollisions(globs)
+        if globs.running:
+            win = roomstr()
         globs.score -= 1
         
 def main():
-    print("loading...")
     init()
     gameLoop()
 
