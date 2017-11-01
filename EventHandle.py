@@ -41,6 +41,16 @@ def handleInput(globs, cmd):
 
 def handleCollisions(globs):
     room = globs.dungeon[globs.player.pos.roomnum]
+
+    i = 0
+    while i < len(room.items):
+        item = room.items[i]
+        if globs.player.pos.x == item.x and globs.player.pos.y == item.y:
+            room.items[i].consume(globs)
+            del room.items[i]
+            break
+
+        i += 1
     
     if globs.player.pos.x < 1:
         globs.player.pos.x += 1
@@ -48,5 +58,5 @@ def handleCollisions(globs):
         globs.player.pos.x -= 1
     elif globs.player.pos.y < 1:
         globs.player.pos.y += 1
-    elif globs.player.pos.y > room.height:
+    elif globs.player.pos.y > room.height - 1:
         globs.player.pos.y -= 1
