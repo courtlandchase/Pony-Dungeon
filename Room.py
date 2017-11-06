@@ -25,7 +25,7 @@ class Room:
         mid = mi * (self.height - 2)
         ld = len(self.doors)
         if ld == 1:
-            mid = '.' * (self.width - 1) + "|\n" + mid
+            mid = '.' * (self.width - 1) + "|\n" + '|' + '.' * (self.width - 2) + "|\n" + mid
         elif ld == 2:
             mid = ('.' * self.width) + '\n' + mid
             mid += mi

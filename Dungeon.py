@@ -26,7 +26,7 @@ def genDungeon():
         if i > 0:
             room.doors.append(i - 1)
 
-        if i < len(roomIDs):
+        if i < len(roomIDs) - 1:
             room.doors.append(i + 1)
         
         rooms.append(room)

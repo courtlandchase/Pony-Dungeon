@@ -43,6 +43,7 @@ def gameLoop():
     globs.audio.playSong("snd/title.ogg")
     c = chr(globs.screen.getch())
     globs.audio.stop()
+    globs.audio.playSong("snd/dungeon.ogg")
     globs.screen.timeout(1000)
     win = roomstr()
     while True:

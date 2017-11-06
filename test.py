@@ -1,17 +1,8 @@
-import curses, time, Graphics
+import Dungeon
 
-screen = curses.initscr()
-curses.start_color()
-curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
-curses.noecho()
-curses.curs_set(0)
-curses.cbreak()
+d = Dungeon.genDungeon()
+room = d[0]
+print(room.show())
 
-screen.addstr(0, 0, "hello world", curses.color_pair(1))
-screen.refresh()
-time.sleep(5)
-Graphics.clear(screen)
-screen.refresh()
-
-time.sleep(2)
-screen.addstr(0, 0, "hello world", curses.color_pair(1))
+room = d[room.doors[0]]
+print(room.show())

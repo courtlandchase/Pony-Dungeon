@@ -24,7 +24,7 @@ def moneyFunc(globs):
     globs.score += 100
 
 def healthFunc(globs):
-    globs.player.hp += g.player.maxhp / 10
+    globs.player.hp += globs.player.maxhp / 10
 
 def weaponFunc(globs):
     pass
