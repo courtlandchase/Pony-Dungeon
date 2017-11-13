@@ -1,9 +1,7 @@
 import sys
-import curses
 import Help
 
 def exit():
-    curses.endwin()
     sys.exit(0)
 
 def handleInput(globs, cmd):

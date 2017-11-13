@@ -4,7 +4,6 @@ minWidth = 20
 maxWidth = 50
 minHeight = 5
 maxHeight = 20
-RECMAX = 4
 
 class Room:
     def __init__(self, id):

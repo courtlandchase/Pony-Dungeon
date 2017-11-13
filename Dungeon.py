@@ -9,6 +9,10 @@ def genRandItems(room):
     while i < room.width - 2:
         j = 2
         while j < room.height - 2:
+            if i == 4 and j == 2:
+                j += 1
+                continue
+            
             if(random.random() <= Item.itemChance):
                 item = Item.Item(random.choice(Item.itemList))
                 item.x, item.y = i, j
@@ -18,6 +22,7 @@ def genRandItems(room):
 
 def genDungeon():
     numrooms = minRooms + int(random.random() * (maxRooms - minRooms))
+    stairsloc = Position.Position(int(random.random() * numrooms), 4, 2)
     roomIDs = list(range(numrooms))
     
     rooms = []
@@ -50,5 +55,10 @@ def genDungeon():
 
     for room in rooms:
         genRandItems(room)
+
+    stairs = Item.Item('>')
+    stairs.x = stairsloc.x
+    stairs.y = stairsloc.y
+    rooms[stairsloc.roomnum].items.append(stairs)
         
     return rooms

@@ -55,7 +55,9 @@ def treasureFunc(globs):
 def trapFunc(globs):
     globs.player.hp /= 10
 
-
+def stairFunc(globs):
+    pass #send trap to globs
+    
 itemFunction = {
     '$' : moneyFunc,
     '+' : healthFunc,
@@ -65,5 +67,6 @@ itemFunction = {
     'f' : foodFunc,
     '#' : pitFunc,
     'X' : treasureFunc,
-    't' : trapFunc
+    't' : trapFunc,
+    '>' : stairFunc
 }

@@ -1,15 +1,32 @@
 import Room
+from ctypes import *
 
-def clear(screen):
+STD_OUTPUT_HANDLE = -11
+
+class COORD(Structure):
+    pass
+
+COORD._fields_ = [("X", c_short), ("Y", c_short)]
+
+def clear():
     rect = ' ' * (Room.maxWidth + 1) + '\n'
     rect *= (Room.maxHeight + 1)
     #todo: add lines for event log
-    screen.addstr(0, 0, rect)
+    #screen.addstr(0, 0, rect)
+    addstr(0, 0, rect)
 
-def draw(screen, win):
-    clear(screen)
-    screen.refresh()
+def draw(win):
+    clear()
+    #screen.refresh()
     #todo: loop through screen when adding color
-    screen.addstr(0, 0, win)
-    screen.refresh()
+    #screen.addstr(0, 0, win)
+    addstr(0, 0, win)
+    #screen.refresh()
     
+ 
+def addstr(r, c, s):
+    h = windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
+    windll.kernel32.SetConsoleCursorPosition(h, COORD(c, r))
+ 
+    c = s.encode("windows-1252")
+    windll.kernel32.WriteConsoleA(h, c_char_p(c), len(c), None, None)

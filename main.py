@@ -1,4 +1,7 @@
-import curses
+#!/usr/bin/python
+
+#import curses
+from msvcrt import getch
 import time
 import Audio, Graphics
 import Global, Dungeon
@@ -8,15 +11,16 @@ globs = Global.Globals()
 
 def cursesInit():
     global globs
-    globs.screen = curses.initscr()
-    curses.noecho()
-    curses.curs_set(0)
-    curses.cbreak()
-    curses.start_color()
-    curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK) #player
-    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK) #floor
-    curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #enemies
-    curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK) #items
+    return
+    #globs.screen = curses.initscr()
+    #curses.noecho()
+    #curses.curs_set(0)
+    #curses.cbreak()
+    #curses.start_color()
+    #curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK) #player
+    #curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK) #floor
+    #curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #enemies
+    #curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK) #items
 
 def roomstr():
     global globs
@@ -27,7 +31,7 @@ def roomstr():
     
 def init():
     global globs
-    cursesInit()
+    #cursesInit()
     globs.dungeon = Dungeon.genDungeon()
     globs.player = Player.Player()
     globs.audio = Audio.Audio()
@@ -39,18 +43,17 @@ def init():
 def gameLoop():
     global globs
 
-    Graphics.draw(globs.screen, "        Pony Dungeon:\n  [Press any key to start]")
+    Graphics.draw("        Pony Dungeon:\n  [Press any key to start]")
     globs.audio.playSong("snd/title.ogg")
-    c = chr(globs.screen.getch())
+    c = getch()
     globs.audio.stop()
     globs.audio.playSong("snd/dungeon.ogg")
-    globs.screen.timeout(1000)
+    #globs.screen.timeout(1000)
     win = roomstr()
     while True:
-        Graphics.draw(globs.screen, win)
-        cmd = globs.screen.getch()
-        if cmd > 0:
-            win = EventHandle.handleInput(globs, chr(cmd))
+        Graphics.draw(win)
+        cmd = getch()
+        win = EventHandle.handleInput(globs, cmd)
         
         #todo: update win with enemy actions if needed
         EventHandle.handleCollisions(globs)
