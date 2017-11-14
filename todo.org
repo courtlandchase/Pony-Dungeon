@@ -1,0 +1,15 @@
+* timing
+* items
+** all effects
+** don't remove certain items
+* show gamestate to player
+** score
+** room number
+** floor number
+** stats
+** events
+* Enemies
+** spawning
+** movement
+** fights
+** bricks

@@ -1,3 +1,5 @@
+import Graphics, Room
+
 class Globals:
     def __init__(self):
         self.floor = 1
@@ -16,8 +18,10 @@ class Globals:
         self.eventLog.append(msg)
 
     def showEvents(self):
-        ret = ""
-        for event in self.eventLog:
-            ret += event + "\n"
+        for i in range(len(self.eventLog)):
+            Graphics.addstr(2+i, Room.maxWidth+2, self.eventLog[i])
 
-        return ret
+    def showState():
+        pass
+
+

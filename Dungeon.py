@@ -59,6 +59,7 @@ def genDungeon():
     stairs = Item.Item('>')
     stairs.x = stairsloc.x
     stairs.y = stairsloc.y
+    stairs.removes = False
     rooms[stairsloc.roomnum].items.append(stairs)
         
     return rooms
