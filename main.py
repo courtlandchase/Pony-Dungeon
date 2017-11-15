@@ -1,11 +1,8 @@
-#!/usr/bin/python
-
-#import curses
 from msvcrt import getch
 import time
 import Audio, Graphics
-import Global, Dungeon
-import EventHandle, Player
+import Global, Dungeon, Player
+import EventHandle, Input
 
 globs = Global.Globals()
 
@@ -39,22 +36,25 @@ def gameLoop():
     c = getch()
     globs.audio.stop()
     globs.audio.playSong("snd/dungeon.ogg")
-    #globs.screen.timeout(1000)
     win = roomstr()
+    globs.iobj = Input.AsyncInput()
+    
     while True:
+        t0 = time.time()
         Graphics.draw(win)
-        #if globs.running:
-        #    globs.showEvents()
+
+        while time.time() - t0 < 1:
+            if globs.iobj.hasKey:
+                cmd = globs.iobj.getKey()
+                win = EventHandle.handleInput(globs, cmd)
+                break
             
-        cmd = getch()
-        win = EventHandle.handleInput(globs, cmd)
-        
-        #todo: update win with enemy actions if needed
         EventHandle.handleCollisions(globs)
         if globs.running:
             win = roomstr()
-        globs.score -= 1
+            globs.score -= 1
 
+        #update enemies
         checkDeathConditions()
         
 def main():

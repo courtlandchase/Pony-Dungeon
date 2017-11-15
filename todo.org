@@ -1,7 +1,3 @@
-* timing
-* items
-** all effects
-** don't remove certain items
 * show gamestate to player
 ** score
 ** room number

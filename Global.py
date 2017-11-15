@@ -11,6 +11,7 @@ class Globals:
         self.running = True
         self.menustate = ""
         self.audio = None
+        self.iobj = None
         self.trap = None #to deal with issues externally
 
     def event(self, msg):

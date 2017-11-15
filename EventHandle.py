@@ -17,6 +17,7 @@ def handleInput(globs, cmd):
             return Help.help(0)
             
     if cmd == 'q' or cmd == 'Q':
+        globs.iobj.die = True
         exit()
     if cmd == 'h':
         globs.running = not globs.running
