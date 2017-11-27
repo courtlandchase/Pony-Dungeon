@@ -39,7 +39,7 @@ def genDungeon():
     extra = int(random.random() * 4) + 2
     extra += extra & 1
     extraConns = random.sample(roomIDs, extra)
-    
+
     i = 0
     while i+1 < len(extraConns):
         n = extraConns[i]
@@ -63,3 +63,17 @@ def genDungeon():
     rooms[stairsloc.roomnum].items.append(stairs)
         
     return rooms
+
+def showDungeon(dun):
+    for i in range(len(dun)):
+        print(str(i) + ": " + str(dun[i].doors))
+
+def adjMatrix(dun):
+    dim = len(dun)
+    mat = [[0 for _ in range(dim)] for _ in range(dim)]
+    for i in range(dim):
+        for j in range(dim):
+            if i in dun[j].doors:
+                mat[i][j] = 1
+                
+    return mat

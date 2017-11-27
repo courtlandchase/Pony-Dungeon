@@ -1,5 +1,6 @@
 import threading, time
 from msvcrt import getch
+import sys
 
 class AsyncInput:
     def __init__(self):
@@ -20,7 +21,7 @@ def keyFunc(iobj):
         with lock:
             if iobj.die:
                 return
-            iobj.key = getch()
+            iobj.key = chr(ord(getch()))
             iobj.hasKey = True
             iobj.locked = True
             while iobj.locked:

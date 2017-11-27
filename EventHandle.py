@@ -1,7 +1,8 @@
 import sys
-import Help, Dungeon, Position
+import Help, Dungeon, Position, Save, Enemy
 
-def exit():
+def exit(globs):
+    Save.save(globs)
     sys.exit(0)
 
 def handleInput(globs, cmd):
@@ -15,10 +16,12 @@ def handleInput(globs, cmd):
             return Help.help(int(cmd))
         except:
             return Help.help(0)
+
+    globs.running = True
             
     if cmd == 'q' or cmd == 'Q':
         globs.iobj.die = True
-        exit()
+        exit(globs)
     if cmd == 'h':
         globs.running = not globs.running
         if not globs.running:
@@ -40,8 +43,8 @@ def handleInput(globs, cmd):
         globs.player.pos.x += 1
         return
     
-
-    return "Invalid input: " + cmd + ".\nPress h for help."
+    globs.running = False
+    return "Invalid input: " + str(cmd) + ".\nPress h for help."
 
 def checkItems(globs, room):
     i = 0
@@ -61,25 +64,31 @@ def checkDoors(globs, room):
     if globs.player.pos.y == 1:
         if globs.player.pos.x == 1:
             nroom = globs.dungeon[room.doors[0]]
-            globs.player.pos.roomnum = room.doors[0]
-            globs.player.pos.x = 2
         elif globs.player.pos.x == room.width - 2 and numdoors > 1:
             nroom = globs.dungeon[room.doors[1]]
-            globs.player.pos.roomnum = room.doors[1]
-            globs.player.pos.x = globs.dungeon[globs.player.pos.roomnum].width - 3
     elif globs.player.pos.y == room.height:
         if globs.player.pos.x == 1 and numdoors > 2:
             nroom = globs.dungeon[room.doors[2]]
-            globs.player.pos.roomnum = room.doors[2]
-            globs.player.pos.x = 2
-            globs.player.pos.y = nroom.height
         elif globs.player.pos.x == room.width - 2 and numdoors > 3:
             nroom = globs.dungeon[room.doors[3]]
-            globs.player.pos.roomnum = room.doors[3]
-            globs.player.pos.x = globs.dungeon[globs.player.pos.roomnum].width - 3
-            globs.player.pos.y = nroom.height
             
     if room != nroom:
+        globs.player.pos.roomnum = nroom.id
+        
+        for i in range(len(nroom.doors)):
+            if room.id == nroom.doors[i]:
+                break
+
+        if i == 0 or i == 2:
+            globs.player.pos.x = 2
+        else:
+            globs.player.pos.x = nroom.width - 3
+
+        if i == 0 or i == 1:
+            globs.player.pos.y = 1
+        else:
+            globs.player.pos.y = nroom.height
+            
         globs.audio.playSound("snd/door.ogg")
 
     return nroom
@@ -88,13 +97,21 @@ def handleCollisions(globs):
     room = globs.dungeon[globs.player.pos.roomnum]
 
     checkItems(globs, room)
+    rt = False
     if globs.trap == 1:
         globs.floor += 1
+        rt = True
+    elif globs.trap == 2:
+        globs.floor -= 1
+        rt = True
+
+    if rt:
         globs.dungeon = Dungeon.genDungeon()
-        globs.player.pos = Position.Position(0, 1, 1)
+        globs.player.pos = Position.Position(0, 2, 1)
         globs.trap = 0
+        Enemy.genEnemies(globs)
         return
-    
+        
     room = checkDoors(globs, room)
 
     if globs.player.pos.x < 1:

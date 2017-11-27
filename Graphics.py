@@ -9,8 +9,8 @@ class COORD(Structure):
 COORD._fields_ = [("X", c_short), ("Y", c_short)]
 
 def clear():
-    rect = ' ' * (Room.maxWidth + 1) + '\n'
-    rect *= (Room.maxHeight + 1)
+    rect = ' ' * 198 + '\n'
+    rect *= 59
     #todo: add lines for event log
     #screen.addstr(0, 0, rect)
     addstr(0, 0, rect)

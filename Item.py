@@ -1,4 +1,4 @@
-import random
+import random, math
 
 class Item:
     def __init__(self, key):
@@ -20,17 +20,26 @@ itemList = [ '$', #sand
              'f', #food
              '#', #pit
              'X', #treasure
-             't' #trap (instant death)
+             't' #trap
 ]
 
 def moneyFunc(globs):
     globs.score += 100
+    globs.event("Picked up some sand!")
 
 def healthFunc(globs):
-    globs.player.hp += globs.player.maxhp / 10
+    if globs.player.hp == globs.player.maxhp:
+        globs.player.maxhp += int(math.log(globs.floor)/math.log(2)) + 1
+        globs.event("All this walking has improved your health.")
+    else:
+        globs.player.hp += int(globs.player.maxhp / 4)
+        if globs.player.hp > globs.player.maxhp:
+            globs.player.hp = globs.player.maxhp
+        globs.event("Recovered some of your health.")
 
 def weaponFunc(globs):
-    globs.player.atk += int(random.random() * (globs.floor+1)) + 1
+    globs.player.atk += int(random.random() * math.log(globs.floor+1)) + 1
+    globs.event("Found a bland sword, but it's slightly better than what you have now.")
 
 def randomFunc(globs):
     f = int(random.random() * 8)
@@ -52,31 +61,37 @@ def randomFunc(globs):
         trapFunc(globs)
     
 def waterFunc(globs):
-    globs.player.thirst -= 10
+    globs.player.thirst -= 500
     if globs.player.thirst < 0:
         globs.player.thirst = 0
+    globs.event("Drank some spilled Mnt Dew.")
 
 def foodFunc(globs):
-    globs.player.hunger -= 10
+    globs.player.hunger -= 1000
     if globs.player.hunger < 0:
         globs.player.hunger = 0
+    globs.event("Found some cheetos on the ground. Yummy!")
 
 def pitFunc(globs):
-    globs.floor -= 1
-    if globs.floor < 1:
-        globs.floor = 1
-    else:
-        pass #send trap to globs
+    if globs.floor > 1:
+        globs.trap = 2
+        globs.event("You fell through a trap door D:")
 
 def treasureFunc(globs):
-    globs.score <<= 1
+    globs.score += 500
+    globs.event("Picked up a dropped wallet.")
 
 def trapFunc(globs):
-    globs.player.hp /= 10
+    globs.player.hp = int(globs.player.hp/10)
+    globs.event("You've fallen into a trap.")
 
 def stairFunc(globs):
     globs.trap = 1
-    
+    globs.event("You've ventured farther into the dungeon.")
+
+def battleFunc(globs):
+    pass #maybe make it like boss fight later
+
 itemFunction = {
     '$' : moneyFunc,
     '+' : healthFunc,
@@ -87,5 +102,6 @@ itemFunction = {
     '#' : pitFunc,
     'X' : treasureFunc,
     't' : trapFunc,
-    '>' : stairFunc
+    '>' : stairFunc,
+    'E' : battleFunc
 }

@@ -1,28 +1,33 @@
-import pygame, thread, time
+#import pygame
+import threading, time
 
 class Audio:
     def __init__(self):
         self.sounds = {}
-        pygame.mixer.init()
+        #pygame.mixer.init()
 
     def playSong(self, path):
-        pygame.mixer.music.load(path)
-        pygame.mixer.music.play(-1)
+        pass
+        #pygame.mixer.music.load(path)
+        #pygame.mixer.music.play(-1)
         
     def playSound(self, path):
-        thread.start_new_thread(soundAsyncHelper, (self, path,))
+        pass
+        #thread.start_new_thread(soundAsyncHelper, (self, path,))
 
     def stop(self):
-        pygame.mixer.music.stop()
-        for sound in self.sounds:
-            sound.stop()
+        pass
+        #pygame.mixer.music.stop()
+        #for sound in self.sounds:
+        #    sound.stop()
 
 def soundAsyncHelper(aud, path):
-    if path in aud.sounds:
-        aud.sounds[path].play()
-    else:
-        aud.sounds[path] = pygame.mixer.Sound(path)
-        aud.sounds[path].play()
+	pass
+    #if path in aud.sounds:
+    #    aud.sounds[path].play()
+    #else:
+    #    aud.sounds[path] = pygame.mixer.Sound(path)
+    #    aud.sounds[path].play()
 
-    time.sleep(aud.sounds[path].get_length())
+    #time.sleep(aud.sounds[path].get_length())
         

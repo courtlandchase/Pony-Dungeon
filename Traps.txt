@@ -1,1 +1,2 @@
 1 - next floor
+2 - fell through a pit
